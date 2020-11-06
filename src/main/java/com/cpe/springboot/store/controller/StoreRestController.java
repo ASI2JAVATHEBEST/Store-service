@@ -1,6 +1,6 @@
-package com.cpe.springboot.controller;
+package com.cpe.springboot.store.controller;
 
-import com.cpe.springboot.model.StoreOrder;
+import com.cpe.springboot.store.model.StoreOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.cpe.springboot.model;
+package com.cpe.springboot.store.model;
 
 public class StoreOrder {
 	private int user_id;

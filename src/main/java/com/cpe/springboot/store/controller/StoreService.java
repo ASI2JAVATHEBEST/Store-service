@@ -1,25 +1,19 @@
-package com.cpe.springboot.controller;
+package com.cpe.springboot.store.controller;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.cpe.springboot.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cpe.springboot.card.Controller.CardModelService;
 import com.cpe.springboot.card.model.CardModel;
-import com.cpe.springboot.model.StoreModel;
-import com.cpe.springboot.user.controller.UserService;
-import com.cpe.springboot.user.model.UserModel;
+import com.cpe.springboot.store.model.StoreModel;
 
 @Service
 public class StoreService {
-	
-	@Autowired
-	CardModelService cardService;
-	@Autowired
-	UserService userService; 
+
 	@Autowired
 	StoreRepository storeRepository;
 	
