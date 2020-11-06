@@ -20,6 +20,9 @@ public class StoreModel {
 	private Integer id;
 	private String name;
 
+	@OneToMany
+    private Set<CardModel> cardList = new HashSet<>();
+
 	public Integer getId() {
 		return id;
 	}

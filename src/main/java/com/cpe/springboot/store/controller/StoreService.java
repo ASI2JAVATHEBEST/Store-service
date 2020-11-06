@@ -1,9 +1,9 @@
 package com.cpe.springboot.store.controller;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
+import com.cpe.springboot.http.HttpClient;
 import com.cpe.springboot.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +22,10 @@ public class StoreService {
 	public void generateNewStore(String name, int nb) {
 		StoreModel store =new StoreModel();
 		store.setName(name);
-		
-		List<CardModel> cardList=cardService.getRandCard(nb);
+
+		HttpClient httpClient = new HttpClient();
+		List<CardModel> cardList = httpClient.getRandCards();
+
 		for(CardModel c: cardList) {
 			store.addCard(c);
 		}
@@ -32,17 +34,14 @@ public class StoreService {
 	}
 	
 	public boolean buyCard(Integer user_id, Integer card_id) {
-		Optional<UserModel> u_option=userService.getUser(user_id);
-		Optional<CardModel> c_option=cardService.getCard(card_id);
-		if(!u_option.isPresent() || !c_option.isPresent()){
-			return false;
-		}
-		UserModel u=u_option.get();
-		CardModel c=c_option.get();
+		HttpClient httpClient = new HttpClient();
+		UserModel u = httpClient.getUserById(user_id);
+		CardModel c = httpClient.getCardById(card_id);
+
 		if(u.getAccount() > c.getPrice()) {
 			u.addCard(c);
 			u.setAccount(u.getAccount()-c.getPrice());
-			userService.updateUser(u);
+			httpClient.updateUser(u, user_id);
 			return true;
 		}else {
 			return false;
@@ -50,19 +49,14 @@ public class StoreService {
 	}
 	
 	public boolean sellCard(Integer user_id, Integer card_id) {
-		Optional<UserModel> u_option=userService.getUser(user_id);
-		Optional<CardModel> c_option=cardService.getCard(card_id);
-		if(!u_option.isPresent() || !c_option.isPresent()){
-			return false;
-		}
-		UserModel u=u_option.get();
-		CardModel c=c_option.get();
+		HttpClient httpClient = new HttpClient();
+		UserModel u = httpClient.getUserById(user_id);
+		CardModel c = httpClient.getCardById(card_id);
 
-		//c.setStore(this.store);
 		c.setUser(null);
-		cardService.updateCard(c);
+		httpClient.updateCard(c, card_id);
 		u.setAccount(u.getAccount()+c.computePrice());
-		userService.updateUser(u);
+		httpClient.updateUser(u, user_id);
 		return true;
 	}
 	
