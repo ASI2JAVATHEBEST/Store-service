@@ -53,6 +53,7 @@ public class StoreService {
 		UserModel u = httpClient.getUserById(user_id);
 		CardModel c = httpClient.getCardById(card_id);
 
+		c.setStore(this.store);
 		c.setUser(null);
 		httpClient.updateCard(c, card_id);
 		u.setAccount(u.getAccount()+c.computePrice());

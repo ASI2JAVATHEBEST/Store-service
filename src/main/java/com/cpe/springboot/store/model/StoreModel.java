@@ -5,14 +5,10 @@ import com.cpe.springboot.card.model.CardModel;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "store_model")
 public class StoreModel {
 
 	@Id
