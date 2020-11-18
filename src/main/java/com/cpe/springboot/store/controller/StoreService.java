@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cpe.springboot.card.model.CardModel;
-import com.cpe.springboot.store.model.StoreModel;
+import com.cpe.springboot.store.model.StoreEntityModel;
 
 @Service
 public class StoreService {
@@ -17,17 +17,17 @@ public class StoreService {
 	@Autowired
 	StoreRepository storeRepository;
 	
-	private StoreModel store;
+	private StoreEntityModel store;
 	
 	public void generateNewStore(String name, int nb) {
-		StoreModel store =new StoreModel();
+		StoreEntityModel store =new StoreEntityModel();
 		store.setName(name);
 
 		HttpClient httpClient = new HttpClient();
 		List<CardModel> cardList = httpClient.getRandCards();
 
 		for(CardModel c: cardList) {
-			store.addCard(c);
+			c.setStore(store.getId());
 		}
 		storeRepository.save(store);
 		this.store=store;
@@ -39,8 +39,10 @@ public class StoreService {
 		CardModel c = httpClient.getCardById(card_id);
 
 		if(u.getAccount() > c.getPrice()) {
-			u.addCard(c);
+			c.setUser(u.getId());
+			c.setStore(0);
 			u.setAccount(u.getAccount()-c.getPrice());
+			httpClient.updateCard(c, card_id);
 			httpClient.updateUser(u, user_id);
 			return true;
 		}else {
@@ -53,15 +55,11 @@ public class StoreService {
 		UserModel u = httpClient.getUserById(user_id);
 		CardModel c = httpClient.getCardById(card_id);
 
-		c.setStore(this.store);
-		c.setUser(null);
+		c.setStore(1);
+		c.setUser(0);
 		httpClient.updateCard(c, card_id);
 		u.setAccount(u.getAccount()+c.computePrice());
 		httpClient.updateUser(u, user_id);
 		return true;
-	}
-	
-	public Set<CardModel> getAllStoreCard(){
-		return this.store.getCardList();
 	}
 }

@@ -5,6 +5,17 @@ public class StoreOrder {
 	private int card_id;
 	
 	public StoreOrder() {
+
+	}
+
+	public StoreOrder(int user_id, int card_id) {
+		this.user_id = user_id;
+		this.card_id = card_id;
+	}
+
+	public StoreOrder(Integer user_id, Integer card_id) {
+		this.user_id = user_id;
+		this.card_id = card_id;
 	}
 
 	public int getUser_id() {

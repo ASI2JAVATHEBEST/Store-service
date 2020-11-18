@@ -9,15 +9,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "store_model")
-public class StoreModel {
+public class StoreEntityModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private String name;
 
-	@OneToMany
-    private Set<CardModel> cardList = new HashSet<>();
+	public StoreEntityModel() { }
 
 	public Integer getId() {
 		return id;
@@ -35,17 +34,11 @@ public class StoreModel {
 		this.name = name;
 	}
 
-	public Set<CardModel> getCardList() {
-		return cardList;
-	}
-
-	public void setCardList(Set<CardModel> cardList) {
-		this.cardList = cardList;
-	}
-
-	public void addCard(CardModel card) {
-		card.setStore(this);
-		this.cardList.add(card);
+	public StoreModel asStoreModel() {
+		StoreModel storeModel = new StoreModel();
+		storeModel.setId(this.getId());
+		storeModel.setName(this.getName());
+		return storeModel;
 	}
 	
 
